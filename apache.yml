@@ -1,0 +1,47 @@
+---
+- name: Configuration du serveur web
+  hosts: all
+  become: true
+  tasks:
+    - name: Installation d'Apache
+      apt:
+        name: apache2
+        state: present
+      when: ansible_pkg_mgr == 'apt'
+
+    - name: Création des dossiers des Virtual Hosts
+      file:
+        path: "/var/www/{{ item }}"
+        state: directory
+        mode: 0755
+      with_items:
+        - HEI.school
+        - front.hei.school
+        - back.hei.school
+        - api.hei.school
+
+    - name: Copie des fichiers de configuration
+      copy:
+        src: "{{ item.src }}"
+        dest: "/etc/apache2/sites-available/{{ item.dest }}"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - { src: "templates/HEI.school.conf.j2", dest: "HEI.school.conf" }
+        - { src: "templates/front.hei.school.conf.j2", dest: "front.hei.school.conf" }
+        - { src: "templates/back.hei.school.conf.j2", dest: "back.hei.school.conf" }
+        - { src: "templates/api.hei.school.conf.j2", dest: "api.hei.school.conf" }
+
+    - name: Activation des Virtual Hosts
+      command: a2ensite "{{ item }}"
+      with_items:
+        - HEI.school
+        - front.hei.school
+        - back.hei.school
+        - api.hei.school
+
+    - name: Redémarrage du service Apache
+      service:
+        name: apache2
+        state: restarted
