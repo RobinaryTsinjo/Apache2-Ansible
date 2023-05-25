@@ -1,0 +1,28 @@
+<VirtualHost *:80>
+  ServerName HEI.school
+  DocumentRoot /var/www/HEI.school
+  ErrorLog ${APACHE_LOG_DIR}/HEI.school_error.log
+  CustomLog ${APACHE_LOG_DIR}/HEI.school_access.log combined
+ </VirtualHost>
+
+
+<VirtualHost *:80>
+  ServerName front.hei.school
+  DocumentRoot /var/www/front.hei.school
+  ErrorLog ${APACHE_LOG_DIR}/front.hei.school_error.log
+  CustomLog ${APACHE_LOG_DIR}/front.hei.school_access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName back.hei.school
+  DocumentRoot /var/www/back.hei.school
+  ErrorLog ${APACHE_LOG_DIR}/back.hei.school_error.log
+  CustomLog ${APACHE_LOG_DIR}/back.hei.school_access.log combined
+</VirtualHost>
+
+<VirtualHost *:80>
+  ServerName api.hei.school
+  DocumentRoot /var/www/api.hei.school
+  ErrorLog ${APACHE_LOG_DIR}/api.hei.school_error.log
+  CustomLog ${APACHE_LOG_DIR}/api.hei.school_access.log combined
+</VirtualHost>
